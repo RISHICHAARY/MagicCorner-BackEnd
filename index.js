@@ -76,7 +76,7 @@ app.put('/PasswordMailer' , async (req , res) => {
 //------------------------------------------------------------------Payment----------------------------------------------------------------------
 
 app.post("/payment", async (req, res) => {
-    console.log("Running")
+
 	let { amount, id } = req.body
 	try {
 		const payment = await stripe.paymentIntents.create({
@@ -94,6 +94,7 @@ app.post("/payment", async (req, res) => {
 	} catch (error) {
 		console.log("Error", error)
 		res.json({
+            payment : payment,
 			message: "Payment failed",
 			success: false
 		})
