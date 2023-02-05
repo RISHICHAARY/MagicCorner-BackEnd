@@ -76,6 +76,7 @@ app.put('/PasswordMailer' , async (req , res) => {
 //------------------------------------------------------------------Payment----------------------------------------------------------------------
 
 app.post("/payment", async (req, res) => {
+    console.log("Running")
 	let { amount, id } = req.body
 	try {
 		const payment = await stripe.paymentIntents.create({
