@@ -94,7 +94,6 @@ app.post("/payment", async (req, res) => {
 	} catch (error) {
 		console.log("Error", error)
 		res.json({
-            payment : payment,
 			message: "Payment failed",
 			success: false
 		})
