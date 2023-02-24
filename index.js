@@ -4,7 +4,7 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 
 require("dotenv").config();
-const stripe = require("stripe")("sk_test_51MUVB7SGIELCYthBzaolFR4ClXGr1wGKpiu1iTi9NF5cPsFl5zG2KgoFpBuNoC6f79grzB5HZrzJvBqQsG6QgSyN00QVgRKcdz")
+const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
 
 let mailTransporter = nodemailer.createTransport(
     {
