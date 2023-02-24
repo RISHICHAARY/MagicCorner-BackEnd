@@ -58,7 +58,15 @@ const admin_schema = new mongoose.Schema(
             type : Array,
         },
         on_cart : {
-            type : Array,
+            id:{
+                type : Array,
+            },
+            cuz : {
+                type : Array,
+            },
+            quant:{
+                type : Array,
+            }
         },
         orders : {
             type : Array,

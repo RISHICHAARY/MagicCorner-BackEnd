@@ -898,11 +898,15 @@ app.post("/DeleteUser" , async (req , res) => {
 
 app.put("/addToCart" , async(req , res) => {
     if(req.body.type == "user"){
-        await user_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {on_cart : req.body.product_id}});
+        await user_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {"on_cart.id" : req.body.product_id}});
+        await user_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {"on_cart.cuz" : req.body.cuz}});
+        await user_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {"on_cart.quant" : req.body.quant}});
         res.send("Done");
     }
     else{
-        await admin_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {on_cart : req.body.product_id}});
+        await admin_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {"on_cart.id" : req.body.product_id}});
+        await admin_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {"on_cart.cuz" : req.body.cuz}});
+        await admin_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {"on_cart.quant" : req.body.quant}});
         res.send("Done");
     }
 });
@@ -917,7 +921,6 @@ app.put("/addToWishList" , async(req , res) => {
         }).clone();
     }
     else{
-        console.log(req.body);
         await admin_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {wishlist : req.body.product_id}} , (err,result) =>{
             res.send("Done");
         }).clone();
@@ -927,6 +930,15 @@ app.put("/addToWishList" , async(req , res) => {
 //-------------------------------------------------------------------------Selected_Products--------------------------------------------------------
 
 app.put("/getSelectedProducts" , (req,res) => {
+    product_model.find({_id:{$in:req.body.id.id}} , (err , result) => {
+        if(err){
+            console.log(err);
+        }
+        res.send(result);
+    }).clone()
+})
+
+app.put("/getSelectedProductss" , (req,res) => {
     product_model.find({_id:{$in:req.body.id}} , (err , result) => {
         if(err){
             console.log(err);
