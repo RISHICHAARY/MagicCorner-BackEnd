@@ -439,6 +439,7 @@ app.put("/addAdmin" , async (req,res) => {
     });
     try{
         await user.save();
+	res.send("Done");
         let details = {
             from :"manageladen01@gmail.com",
             to: req.body.email,
