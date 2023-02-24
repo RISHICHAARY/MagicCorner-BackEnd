@@ -921,7 +921,6 @@ app.put("/addToWishList" , async(req , res) => {
         }).clone();
     }
     else{
-        console.log(req.body);
         await admin_model.updateOne({email:req.body.user , _id:req.body.id} , {$push : {wishlist : req.body.product_id}} , (err,result) =>{
             res.send("Done");
         }).clone();
