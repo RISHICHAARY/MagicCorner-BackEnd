@@ -10,7 +10,7 @@ let mailTransporter = nodemailer.createTransport(
     {
         service : "gmail",
         auth : {
-            user : "manageladen01@gmail.com",
+            user : "magiccornerin@gmail.com",
             pass : process.env.GMAIL
         }
     }
@@ -42,7 +42,7 @@ app.put('/PasswordMailer' , async (req , res) => {
         await user_model.find({email : req.body.email}, (err , result) => {
             if(err){console.log(err);}
             let details = {
-                from :"manageladen01@gmail.com",
+                from :"magiccornerin@gmail.com",
                 to: req.body.email,
                 subject : "Password of your magic corner account.",
                 text : "Hi "+result[0].full_name+","+"."+result[0].password+" is your Password."
@@ -59,7 +59,7 @@ app.put('/PasswordMailer' , async (req , res) => {
         await admin_model.find({email : req.body.email}, (err , result) => {
             if(err){console.log(err);}
             let details = {
-                from :"manageladen01@gmail.com",
+                from :"magiccornerin@gmail.com",
                 to: req.body.email,
                 subject : "Password of your magic corner account.",
                 text : "Hi "+result[0].full_name+","+"."+result[0].password+" is your Password."
@@ -161,7 +161,7 @@ app.put("/addOrder" , async ( req , res )=>{
                 user_model.updateOne({_id : req.body.id} , {$push : {orders : order_id} , $set : {on_cart : []}} , (err , result ) =>{
                     if(err){console.log(err)}
                     let details = {
-                        from :"manageladen01@gmail.com",
+                        from :"magiccornerin@gmail.com",
                         to: req.body.email,
                         subject : "Magic Corner Order Confirmation",
                         text : "Hi!! your order has been placed successfully. Further information's will be sent in fore coming mails."
@@ -178,7 +178,7 @@ app.put("/addOrder" , async ( req , res )=>{
                 admin_model.updateOne({_id : req.body.id} , {$push : {orders : order_id} , $set : {on_cart : []}} , (err , result ) =>{
                     if(err){console.log(err)}
                     let details = {
-                        from :"manageladen01@gmail.com",
+                        from :"magiccornerin@gmail.com",
                         to: req.body.email,
                         subject : "Magic Corner Order Confirmation",
                         text : "Hi!! your order has been placed successfully. Further information's will be sent in fore coming mails."
@@ -218,10 +218,10 @@ app.put("/addEnrollment" , async ( req , res )=>{
                 user_model.updateOne({_id : req.body.id} , {$push : {workshops : order_id}} , (err , result ) =>{
                     if(err){console.log(err)}
                         let details = {
-                            from :"manageladen01@gmail.com",
+                            from :"magiccornerin@gmail.com",
                             to: req.body.email,
                             subject : "Magic Corner workshop enrollment Confirmation",
-                            text : "Hi!! "+ req.body.name +" you have been successfully enrolled to the workshop '"+ req.body.wn +"'. Further information's will be sent in fore coming mails."
+                            text : "Hi!! "+ req.body.name +" you have been successfully enrolled to the workshop '"+ req.body.wn +"'. Further information's will be sent in following watsapp group : "+req.body.wg+" ."
                         };
                         mailTransporter.sendMail( details , (err) =>{
                             if(err){
@@ -235,10 +235,10 @@ app.put("/addEnrollment" , async ( req , res )=>{
                 admin_model.updateOne({_id : req.body.id} , {$push : {workshops : order_id}} , (err , result ) =>{
                     if(err){console.log(err)}
                     let details = {
-                        from :"manageladen01@gmail.com",
+                        from :"magiccornerin@gmail.com",
                         to: req.body.email,
                         subject : "Magic Corner workshop enrollment Confirmation",
-                        text : "Hi!! "+ req.body.name +" you have been successfully enrolled to the workshop '"+ req.body.wn +"'. Further information's will be sent in fore coming mails."
+                        text : "Hi!! "+ req.body.name +" you have been successfully enrolled to the workshop '"+ req.body.wn +"'. Further information's will be sent in following watsapp group : "+req.body.wg+" ."
                     };
                     mailTransporter.sendMail( details , (err) =>{
                         if(err){
@@ -275,7 +275,6 @@ app.put("/userOrders" , (req , res)=>{
 //---------------------------------------------------------------get_User_Workshops----------------------------------------------------------------
 
 app.put("/userWorkshops" , (req , res)=>{
-    console.log(req.body.id)
     enrollment_model.find({_id : {$in : req.body.id}} , (err , result)=>{
         if(err){console.log(err)}
         res.send(result);
@@ -316,7 +315,7 @@ app.put('/OtpMailer' , async (req , res) => {
         await user_model.find({email : req.body.email}, (err , result) => {
             if(err){console.log(err);}
             let details = {
-                from :"manageladen01@gmail.com",
+                from :"magiccornerin@gmail.com",
                 to: req.body.email,
                 subject : "OTP To verify your magic corner account.",
                 text : "Hi "+result[0].full_name+", Use "+req.body.otp+" To get your Magic Corner Account Password."
@@ -333,7 +332,7 @@ app.put('/OtpMailer' , async (req , res) => {
         await admin_model.find({email : req.body.email}, (err , result) => {
             if(err){console.log(err);}
             let details = {
-                from :"manageladen01@gmail.com",
+                from :"magiccornerin@gmail.com",
                 to: req.body.email,
                 subject : "OTP To verify your magic corner account.",
                 text : "Hi "+result[0].full_name+", Use "+req.body.otp+" To get your Magic Corner Account Password."
@@ -352,7 +351,7 @@ app.put('/OtpMailer' , async (req , res) => {
 
 app.post('/userMailer' , (req , res ) => {
     let details = {
-        from :"manageladen01@gmail.com",
+        from :"magiccornerin@gmail.com",
         to: req.body.mail,
         subject : "OTP To verify your magic corner account.",
         text : "Hi "+req.body.name+","+" Welcome To Magic Corner. Use "+req.body.otp+" To validate your Magic Corner Account. Once Validated You can start using your account after getting a confirmation mail from us."
@@ -368,7 +367,7 @@ app.post('/userMailer' , (req , res ) => {
 
 app.post('/adminMailer' , (req , res ) => {
     let details = {
-        from :"manageladen01@gmail.com",
+        from :"magiccornerin@gmail.com",
         to: "rishichaary1903@gmail.com",
         subject : "OTP To verify your magic corner account.",
         text :"Use "+req.body.otp+" To make Mr/Mrs : "+req.body.name+" as Magic Corner Admin.1"
@@ -403,7 +402,7 @@ app.put("/addUser" , async (req,res) => {
         await user.save();
         res.send("Done");
         let details = {
-            from :"manageladen01@gmail.com",
+            from :"magiccornerin@gmail.com",
             to: req.body.email,
             subject : "Magic Corner Account Established",
             text : "Hi!! "+req.body.name+", You have dived into the world of handmade things. Start Enjoying Your Shopping."
@@ -439,9 +438,9 @@ app.put("/addAdmin" , async (req,res) => {
     });
     try{
         await user.save();
-	res.send("Done");
+        res.send("Done");
         let details = {
-            from :"manageladen01@gmail.com",
+            from :"magiccornerin@gmail.com",
             to: req.body.email,
             subject : "Magic Corner Account Confirmation.",
             text : "Hi!! "+req.body.name+", You have dived into the world of handmade things. Start Enjoying Your Shopping."
@@ -494,6 +493,7 @@ app.put("/addWorkshop" , async (req , res) => {
             description : req.body.description,
             newprice : req.body.newprice,
             oldprice : req.body.oldprice,
+            watsapp_grp : req.body.watsapp_grp,
         }
     );
     try{
