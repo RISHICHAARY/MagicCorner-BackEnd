@@ -86,7 +86,6 @@ app.post("/payment", async (req, res) => {
 			payment_method: id,
 			confirm: true
 		})
-		console.log("Payment", payment)
 		res.json({
 			message: "Payment successful",
 			success: true
