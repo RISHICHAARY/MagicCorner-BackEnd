@@ -158,7 +158,7 @@ app.put("/addOrder" , async ( req , res )=>{
             if(err){console.log(err)}
             order_id = result[Object.keys(result).length-1]._id;
             if(req.body.type == "user"){
-                user_model.updateOne({_id : req.body.id} , {$push : {orders : order_id} , $set : {on_cart : []}} , (err , result ) =>{
+                user_model.updateOne({_id : req.body.id} , {$push : {orders : order_id} , $set : {"on_cart.id" : [] , "on_cart.cuz" : [] , "on_cart.quant" : []}} , (err , result ) =>{
                     if(err){console.log(err)}
                     let details = {
                         from :"magiccornerin@gmail.com",
@@ -175,7 +175,7 @@ app.put("/addOrder" , async ( req , res )=>{
                 })
             }
             else{
-                admin_model.updateOne({_id : req.body.id} , {$push : {orders : order_id} , $set : {on_cart : []}} , (err , result ) =>{
+                admin_model.updateOne({_id : req.body.id} , {$push : {orders : order_id} , $set : {"on_cart.id" : [] , "on_cart.cuz" : [] , "on_cart.quant" : []}} , (err , result ) =>{
                     if(err){console.log(err)}
                     let details = {
                         from :"magiccornerin@gmail.com",
@@ -856,6 +856,7 @@ app.put("/UpdateWorkshops" , async (req , res) => {
         var newDescription = req.body.description;
         var newNewPrice = req.body.newprice;
         var newOldPrice = req.body.oldprice;
+        var newwg = req.body.wg;
         if(newDescription != null){
             await workshop_model.updateOne({_id : req.body.id} , {$set : {description : newDescription}});
         }
@@ -864,6 +865,9 @@ app.put("/UpdateWorkshops" , async (req , res) => {
         }
         if(newOldPrice != 0){
             await workshop_model.updateOne({_id : req.body.id} , {$set : {oldprice : newOldPrice}});
+        }
+        if(newwg != null){
+            await workshop_model.updateOne({_id : req.body.id} , {$set : {watsapp_grp : newwg}});
         }
         res.send("Done");
     }catch(err){
@@ -969,7 +973,7 @@ app.put("/getCart" , (req , res) => {
 
 app.put("/deleteMe" , (req , res)=>{
     if(req.body.type === "user"){
-        user_model.updateOne({_id:req.body.id} , {$set:{on_cart:req.body.file}} , (err , result)=>{
+        user_model.updateOne({_id:req.body.id} , {$set:{"on_cart.id":req.body.file.id,"on_cart.cuz":req.body.file.cuz,"on_cart.quant":req.body.file.quant}} , (err , result)=>{
             if(err){console.log(err)}
             res.send("Done");
         })
