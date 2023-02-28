@@ -13,6 +13,10 @@ const workshop_schema = new mongoose.Schema({
         type : String,
         required : true,
     },
+    watsapp_grp : {
+        type : String,
+        required : true,
+    },
     newprice : {
         type : Number,
         required : true,
