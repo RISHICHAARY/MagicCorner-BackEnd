@@ -367,7 +367,7 @@ app.post('/userMailer' , (req , res ) => {
 app.post('/adminMailer' , (req , res ) => {
     let details = {
         from :"magiccornerin@gmail.com",
-        to: "rishichaary1903@gmail.com",
+        to: "magiccornerin@gmail.com",
         subject : "OTP To verify your magic corner account.",
         text :"Use "+req.body.otp+" To make Mr/Mrs : "+req.body.name+" as Magic Corner Admin.1"
     };
