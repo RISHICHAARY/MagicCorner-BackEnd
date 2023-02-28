@@ -353,7 +353,7 @@ app.post('/userMailer' , (req , res ) => {
         from :"magiccornerin@gmail.com",
         to: req.body.mail,
         subject : "OTP To verify your magic corner account.",
-        text : "Hi "+req.body.name+","+" Welcome To Magic Corner. Use "+req.body.otp+" To validate your Magic Corner Account. Once Validated You can start using your account after getting a confirmation mail from us."
+        text : "Hi "+req.body.name+","+" Welcome To Magic Corner. Use "+req.body.otp+" To validate your Magic Corner Account. Once Validated You can start using your account ."
     };
     mailTransporter.sendMail( details , (err) =>{
         if(err){
@@ -369,7 +369,7 @@ app.post('/adminMailer' , (req , res ) => {
         from :"magiccornerin@gmail.com",
         to: "magiccornerin@gmail.com",
         subject : "OTP To verify your magic corner account.",
-        text :"Use "+req.body.otp+" To make Mr/Mrs : "+req.body.name+" as Magic Corner Admin.1"
+        text :"Use "+req.body.otp+" To make Mr/Mrs : "+req.body.name+" as Magic Corner Admin."
     };
     mailTransporter.sendMail( details , (err) =>{
         if(err){
