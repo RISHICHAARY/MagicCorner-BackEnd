@@ -398,11 +398,11 @@ app.put("/addUser" , async (req,res) => {
         "address.pin_code" : req.body.pincode ,
     });
     try{
+	var mail = req.body.email;
         await user.save();
-        res.send("Done");
         let details = {
             from :"magiccornerin@gmail.com",
-            to: req.body.email,
+            to: mail,
             subject : "Magic Corner Account Established",
             text : "Hi!! "+req.body.name+", You have dived into the world of handmade things. Start Enjoying Your Shopping."
         };
@@ -411,6 +411,7 @@ app.put("/addUser" , async (req,res) => {
                 console.log(err);
             }
         } )
+	res.send("Done");
     }catch(err){
         console.log(err);
     }
@@ -436,11 +437,11 @@ app.put("/addAdmin" , async (req,res) => {
         "address.pin_code" : req.body.pincode ,
     });
     try{
+	var mail = req.body.email;
         await user.save();
-        res.send("Done");
         let details = {
             from :"magiccornerin@gmail.com",
-            to: req.body.email,
+            to: mail,
             subject : "Magic Corner Account Confirmation.",
             text : "Hi!! "+req.body.name+", You have dived into the world of handmade things. Start Enjoying Your Shopping."
         };
@@ -449,6 +450,7 @@ app.put("/addAdmin" , async (req,res) => {
                 console.log(err);
             }
         } )
+	res.send("Done");
     }catch(err){
         console.log(err);
     }
