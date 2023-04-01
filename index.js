@@ -34,6 +34,7 @@ const offer_model = require('./models/Offers_model');
 const workshop_model = require('./models/workshops_model');
 const admin_model = require('./models/admin_model');
 const question_model = require('./models/qustion_model');
+const contact_query_model = require('./models/contact_query');
 
 //-------------------------------------------------------------------Password_Mailer--------------------------------------------------------------
 
@@ -84,7 +85,7 @@ app.post("/payment", async (req, res) => {
 			currency: "INR",
 			description: req.body.name,
 			payment_method: id,
-			confirm: true
+			confirm: true,
 		})
 		res.json({
 			message: "Payment successful",
@@ -353,7 +354,7 @@ app.post('/userMailer' , (req , res ) => {
         from :"magiccornerin@gmail.com",
         to: req.body.mail,
         subject : "OTP To verify your magic corner account.",
-        text : "Hi "+req.body.name+","+" Welcome To Magic Corner. Use "+req.body.otp+" To validate your Magic Corner Account. Once Validated You can start using your account ."
+        text : "Hi "+req.body.name+","+" Welcome To Magic Corner. Use "+req.body.otp+" To validate your Magic Corner Account. Once Validated You can start using your account after getting a confirmation mail from us."
     };
     mailTransporter.sendMail( details , (err) =>{
         if(err){
@@ -367,9 +368,9 @@ app.post('/userMailer' , (req , res ) => {
 app.post('/adminMailer' , (req , res ) => {
     let details = {
         from :"magiccornerin@gmail.com",
-        to: "magiccornerin@gmail.com",
+        to: "rishichaary1903@gmail.com",
         subject : "OTP To verify your magic corner account.",
-        text :"Use "+req.body.otp+" To make Mr/Mrs : "+req.body.name+" as Magic Corner Admin."
+        text :"Use "+req.body.otp+" To make Mr/Mrs : "+req.body.name+" as Magic Corner Admin.1"
     };
     mailTransporter.sendMail( details , (err) =>{
         if(err){
@@ -398,7 +399,7 @@ app.put("/addUser" , async (req,res) => {
         "address.pin_code" : req.body.pincode ,
     });
     try{
-	var mail = req.body.email;
+        var mail = req.body.email;
         await user.save();
         let details = {
             from :"magiccornerin@gmail.com",
@@ -411,7 +412,7 @@ app.put("/addUser" , async (req,res) => {
                 console.log(err);
             }
         } )
-	res.send("Done");
+        res.send("Done");
     }catch(err){
         console.log(err);
     }
@@ -437,7 +438,7 @@ app.put("/addAdmin" , async (req,res) => {
         "address.pin_code" : req.body.pincode ,
     });
     try{
-	var mail = req.body.email;
+        var mail = req.body.email;
         await user.save();
         let details = {
             from :"magiccornerin@gmail.com",
@@ -450,7 +451,7 @@ app.put("/addAdmin" , async (req,res) => {
                 console.log(err);
             }
         } )
-	res.send("Done");
+        res.send("Done");
     }catch(err){
         console.log(err);
     }
@@ -1066,6 +1067,13 @@ app.get("/entireQueries" , async (req , res)=> {
     })
 })
 
+app.get("/entireContactQueries" , async (req , res)=> {
+    contact_query_model.find((err, result) => {
+        if(err){console.log(err)}
+        res.send(result);
+    })
+})
+
 //--------------------------------------------------------------Queries--------------------------------------------------------------------------
 
 app.get("/allQueries" , async (req , res)=> {
@@ -1082,8 +1090,54 @@ app.put("/addReply" , (req , res)=>{
         if(err){console.log(err)}
         res.send("Done");
     })
+});
+
+//---------------------------------------------------------Add_Contact_Query----------------------------------------------------------------------
+app.put("/addContactQuery" , async (req , res) => {
+    const query = new contact_query_model({
+        question : req.body.query,
+        posted_by : req.body.user,
+    });
+
+    try{
+        await query.save()
+        res.send("Done");
+    }
+    catch(err){
+        console.log(err);
+    }
 })
 
+//--------------------------------------------------------------Queries--------------------------------------------------------------------------
+
+app.get("/allContactQueries" , async (req , res)=> {
+    contact_query_model.find({answer : undefined}, (err, result) => {
+        if(err){console.log(err)}
+        res.send(result);
+    })
+})
+
+//------------------------------------------------------------Add_Reply--------------------------------------------------------------------------
+
+app.put("/addContactReply" , (req , res)=>{
+    contact_query_model.updateOne({_id : req.body.id} , {$set : {answer : req.body.answer , answered_by : req.body.sender }} , (err , result)=>{
+        if(err){console.log(err)}
+            contact_query_model.find({_id : req.body.id}, (err , result)=>{
+                if(err){console.log(err)}
+                let details = {
+                    from :"magiccornerin@gmail.com",
+                    to: result[0].posted_by,
+                    subject : "Reply From MagicCorner",
+                    text : "Hi "+result[0].posted_by+","+" "+req.body.answer+"."+" This the reply we have got for you."
+                };
+                mailTransporter.sendMail( details , (err) =>{
+                    if(err){
+                        console.log(err);
+                    }
+                } )})
+        res.send("Done");
+    })
+});
 //--------------------------------------------------------------Server----------------------------------------------------------------------------
 
 app.listen(process.env.port || 3001, () => {
