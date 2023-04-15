@@ -35,6 +35,8 @@ const workshop_model = require('./models/workshops_model');
 const admin_model = require('./models/admin_model');
 const question_model = require('./models/qustion_model');
 const contact_query_model = require('./models/contact_query');
+const review_model = require('./models/Review_model');
+const category_model = require('./models/Category_model');
 
 //-------------------------------------------------------------------Password_Mailer--------------------------------------------------------------
 
@@ -118,6 +120,36 @@ app.put("/addOffers" , async (req , res)=>{
     }
 });
 
+app.put("/addReview" , async (req , res)=>{
+    const Review = new review_model({
+        name : req.body.name,
+        loc : req.body.loc,
+        rev : req.body.rev,
+        rating : req.body.rating,
+    });
+    try{
+        await Review.save();
+        res.send("Done");
+    }
+    catch{
+        console.log("Error");
+    }
+});
+
+app.put("/addCategory" , async (req , res)=>{
+    const Category = new category_model({
+        name : req.body.name,
+        image : req.body.img,
+    });
+    try{
+        await Category.save();
+        res.send("Done");
+    }
+    catch{
+        console.log("Error");
+    }
+});
+
 //----------------------------------------------------------------Delete_Offer-------------------------------------------------------------------
 
 app.put("/deleteOffers" , (req , res)=>{
@@ -134,6 +166,20 @@ app.get("/getOffers" ,async (req , res) => {
         if(err){console.log(err)}
         res.send(result)
     }).sort({min_price : -1}).clone();
+});
+
+app.get("/getReview" ,async (req , res) => {
+    await review_model.find((err , result)=>{
+        if(err){console.log(err)}
+        res.send(result);
+    }).clone();
+});
+
+app.get("/getCategory" ,async (req , res) => {
+    await category_model.find((err , result)=>{
+        if(err){console.log(err)}
+        res.send(result);
+    }).clone();
 });
 
 //------------------------------------------------------------------Add_Orders--------------------------------------------------------------------
